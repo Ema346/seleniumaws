@@ -5,19 +5,11 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 import moodle_locators as locators
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import Select  # <--- add this import for drop down lists
 
-options = Options()
-options.add_argument("--headless")
-options.add_argument("window-size=1400,1500")
-options.add_argument("--disable-gpu")
-options.add_argument("--no-sandbox")
-options.add_argument("start-maximized")
-options.add_argument("enable-automation")
-options.add_argument("--disable-infobars")
-options.add_argument("--disable-dev-shm-usage")
 
-driver = webdriver.Chrome(options=options)
+s = Service(executable_path='../chromedriver.exe')
+driver = webdriver.Chrome(service=s)
 
 
 def setUp():
@@ -121,8 +113,9 @@ def create_new_user():
     sleep(0.25)
 
     # non-mandatory fields
-    Select(driver.find_element(By.ID, 'id_maildisplay')).select_by_visible_text('Allow everyone to see my email address')
-    sleep(0.25)
+    # Select(driver.find_element(By.ID, 'id_maildisplay')).select_by_visible_text('Allow everyone to see my email address')
+    # sleep(0.25)
+
     driver.find_element(By.ID, 'id_moodlenetprofile').send_keys(locators.moodle_net_profile)
     sleep(0.25)
     driver.find_element(By.ID, 'id_city').send_keys(locators.city)
@@ -136,22 +129,22 @@ def create_new_user():
     sleep(0.5)
 
     # upload picture
-    driver.find_element(By.CLASS_NAME, 'dndupload-arrow').click()
-    img_path = ['Server files', 'sl_Frozen', 'sl_How to build a snowman', 'Course image', 'gieEd4R5T.png']
-    for path in img_path:
-        driver.find_element(By.LINK_TEXT, path).click()
-        sleep(0.25)
+    # driver.find_element(By.CLASS_NAME, 'dndupload-arrow').click()
+    # img_path = ['Server files', 'sl_Frozen', 'sl_How to build a snowman', 'Course image', 'gieEd4R5T.png']
+    # for path in img_path:
+        # driver.find_element(By.LINK_TEXT, path).click()
+        # sleep(0.25)
 
     # select a radio button
     # method 1 - click the radio button
     #driver.find_element(By.XPATH, '//input[@value="4"]').click()
     # method 2 - click the label attached to radio button
-    driver.find_element(By.XPATH, '//label[contains(., "Create an alias/shortcut to the file")]').click()
-    sleep(0.25)
-    driver.find_element(By.XPATH, '//button[contains(text(), "Select this file")]').click()
-    sleep(0.25)
-    driver.find_element(By.ID, 'id_imagealt').send_keys(locators.pic_desc)
-    sleep(0.25)
+    # driver.find_element(By.XPATH, '//label[contains(., "Create an alias/shortcut to the file")]').click()
+    # sleep(0.25)
+    # driver.find_element(By.XPATH, '//button[contains(text(), "Select this file")]').click()
+    # sleep(0.25)
+    # driver.find_element(By.ID, 'id_imagealt').send_keys(locators.pic_desc)
+    # sleep(0.25)
     # populate Additional names section
     driver.find_element(By.LINK_TEXT, 'Additional names').click()
     sleep(0.25)
